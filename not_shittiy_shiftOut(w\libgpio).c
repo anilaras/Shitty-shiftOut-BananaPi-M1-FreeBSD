@@ -2,6 +2,8 @@
 // Created by Anıl ARAS on 2019-03-29.
 //
 
+#include <stdlib.h>
+#include <stdio.h>
 #include <stdint.h>
 #include <string.h>
 #include <sys/cdefs.h>
@@ -74,11 +76,14 @@ void registerWrite(int value){
 }
 
 int main(int argc, char **argv){
-    for (int c = 0; c < 255; c++) {
+    for (int c = 0; c < 256; c++) {
         registerWrite(c);
         usleep(50000);
     }
+    usleep(50000);
+    for (int i = 0; i < 2; i++) {
+        registerWrite(0);
+    }
 
-    registerWrite(0);
-    return 0;
+    exit(0);
 }
