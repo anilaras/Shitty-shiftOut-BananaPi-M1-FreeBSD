@@ -2,8 +2,6 @@
 // Created by Anıl ARAS on 2019-03-29.
 //
 
-#include <stdlib.h>
-#include <stdio.h>
 #include <stdint.h>
 #include <string.h>
 #include <sys/cdefs.h>
@@ -26,29 +24,19 @@ int latchPin = 127;        //CON3-P12 PH2  shift register latch pini
 int clockPin = 172;       //CON3-P11 PI19  shift register clock pini
 int dataPin = 171;	  //CON3-P13 PI18 shift register data pini
 
-/*
+
 void settings(){
     gpio_config_t pin;
     gpio_handle_t handle;
     handle = gpio_open(0);
 
-    pin.g_pin = 127;
-    pin.g_flags = flags;
-
-    gpio_pin_set_flags(handle, &pin); //(handle, 127);
-
-
-    pin.g_pin = 172;
-    pin.g_flags = flags;
-    gpio_pin_set_flags(handle, &pin); //(handle, 172);
-
-    pin.g_pin = 171;
-    pin.g_flags = flags;
-    gpio_pin_set_flags(handle, &pin); //(handle, 171);
+    gpio_pin_output(handle, latchPin); //(handle, 127);
+    gpio_pin_output(handle, clockPin); //(handle, 172);
+    gpio_pin_output(handle, dataPin); //(handle, 171);
 
     gpio_close(handle);
 }
-*/
+
 
 void shiftOut(int dataPin, int clockPin, int bitOrder, int val)
 {
@@ -88,7 +76,7 @@ void registerWrite(int value){
 int main(int argc, char **argv){
     for (int c = 0; c < 255; c++) {
         registerWrite(c);
-        usleep(1000);
+        usleep(50000);
     }
 
     registerWrite(0);
