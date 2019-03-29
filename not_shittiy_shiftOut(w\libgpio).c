@@ -2,22 +2,18 @@
 // Created by Anıl ARAS on 2019-03-29.
 //
 
-#include <stdlib.h>
-#include <stdio.h>
 #include <stdint.h>
 #include <string.h>
 #include <sys/cdefs.h>
 __FBSDID("$FreeBSD$");
-
 #include <fcntl.h>
 #include <getopt.h>
 #include <paths.h>
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdlib.h>
-#include <string.h>
 #include <unistd.h>
-
+#include <signal.h>
 #include <libgpio.h>
 
 #define LSBFIRST 1
@@ -75,7 +71,19 @@ void registerWrite(int value){
 
 }
 
+void sigintHandler(int sig_num)
+{
+    signal(SIGINT, sigintHandler);
+    printf("\n terminated \n");
+    fflush(stdout);
+    for (int i = 0; i < 2; i++) {
+        registerWrite(0);
+    }
+    exit(1);
+}
+
 int main(int argc, char **argv){
+    signal(SIGINT, sigintHandler);
     for (int c = 0; c < 256; c++) {
         registerWrite(c);
         usleep(50000);
